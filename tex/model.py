@@ -4,6 +4,7 @@ from typing import Callable
 
 import dotenv
 from google import genai
+from langchain_community.embeddings import HuggingFaceEmbeddings
 from langchain_google_genai import ChatGoogleGenerativeAI
 
 logger = logging.getLogger(__name__)
@@ -49,3 +50,11 @@ def call_gemini_embedding(
         model="gemini-embedding-exp-03-07",
         contents=content,
     )
+
+
+EMBEDDING_MODEL = HuggingFaceEmbeddings(model_name="Alibaba-NLP/gte-large-en-v1.5")
+
+
+@ModelFactory.register("alibaba_embedding_model")
+def call_alibaba_embedding_model():
+    return EMBEDDING_MODEL
