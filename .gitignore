@@ -177,3 +177,5 @@ tex/.langgraph_api
 
 .DS_Store
 tex/.DS_Store
+mlruns
+mlartifacts

@@ -43,9 +43,9 @@ def call_gemini_model():
 def call_gemini_embedding(
     content: str,
 ):
-    client = genai.Client(api_key=os.getenv("GEMINI_API_KEY"))
+    return genai.Client(api_key=os.getenv("GEMINI_API_KEY")).models
 
-    return client.models.embed_content(
-        model="gemini-embedding-exp-03-07",
-        contents=content,
-    )
+    # return client.models.embed_content(
+    #     model="gemini-embedding-exp-03-07",
+    #     contents=content,
+    # )

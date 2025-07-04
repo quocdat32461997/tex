@@ -15,6 +15,7 @@ def create_handoff_tool(*, agent_name: str, description: str | None = None):
         state: Annotated[MessagesState, InjectedState],
         tool_call_id: Annotated[str, InjectedToolCallId],
     ) -> Command:
+        print("call handoff tool ??????????")
         tool_message = {
             "role": "tool",
             "content": f"Successfully transferred to {agent_name}",
