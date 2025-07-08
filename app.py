@@ -1,19 +1,3 @@
-# async def main():
-#     async for chunk in client.runs.stream(
-#         None,  # Threadless run
-#         "agent",  # Name of assistant. Defined in langgraph.json.
-#         input={
-#             "messages": [
-#                 {
-#                     "role": "human",
-#                     "content": "What is LangGraph?",
-#                 }
-#             ],
-#         },
-#     ):
-#         print(f"Receiving new event of type: {chunk.event}...")
-#         print(chunk.data)
-#         print("\n\n")
 import mlflow
 from langchain_core.messages import convert_to_messages
 
@@ -80,7 +64,7 @@ if __name__ == "__main__":
             "messages": [
                 {
                     "role": "user",
-                    "content": "I want to agent to file tax form 1040.",  # "Multipy 2 and 3",  # "I want to agent to file tax form 1040.",
+                    "content": "I want to agent to file tax form 1040.",
                 }
             ],
         },

@@ -1,5 +1,6 @@
 from typing import List
 
+from langchain_core.messages import HumanMessage
 from langchain_core.runnables import RunnableConfig
 
 from tex.agents.schemas import FormInput
@@ -14,6 +15,8 @@ def call_fill_model(
     model_name: str,
     form_name: str,
     line: str,
+    question: str,
+    instruction: str,
     tools: List[str] = [],
 ):
     # Get model
@@ -22,10 +25,14 @@ def call_fill_model(
     # Binding tools in run time
     if len(tools) > 0:
         model.bind_tools(tools)
-    messages = state["messages"]
-    statements = state["statments"]
-    response = model.invoke(messages)
+
+    # Add instruction
+    # TO-DO: next line (line 31) attempts to combine the prompt to look at the extracted W2 info to return the total amount of income.
+    # However, the result is "```tool_code\nprint(default_api.get_form_1040_line_item(item='1a'))\n```". Problem is how to parse them.
+    state["messages"].append(HumanMessage(content=line + question))
+    response = model.invoke(state["messages"])
+
     return {
         "messages": [response],
-        # "forms": state["forms"][form_name].update(response),
+        "forms": [instruction.format(answer=response)],
     }

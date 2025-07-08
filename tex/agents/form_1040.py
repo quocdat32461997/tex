@@ -60,6 +60,8 @@ class Form1040Agent(BaseAgent):
                     call_fill_model,
                     form_name=self.name,
                     line=line["context"],
+                    question=line["question"],
+                    instruction=line["comprehensive_context"],
                     model_name=self.model_name,
                     tools=[ToolFactory.get("retrieve_instructions")],
                 ),

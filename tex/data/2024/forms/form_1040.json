@@ -3,7 +3,7 @@
         {
             "name": "Line 1a",
             "context": "Line 1a: Total amount from Form(s) W-2, box 1 (see instructions).",
-            "question": "What is the toal amount? If you cannot find in current database, please ask. Return a JSON object with key 'answer.",
+            "question": "Given the extracted information, what is the toal amount? If you cannot find in current database, please ask. Return a JSON object with key 'answer.",
             "answer": null,
             "comprehensive_context": "Line 1a: Total amount from Form(s) W-2, box 1 (see instructions): {answer}"
         },

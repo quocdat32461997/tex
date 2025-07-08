@@ -70,7 +70,7 @@ def create_extract_info(  # state and config are two default runtime params.
         return Command(
             update={
                 "messages": [response],
-                "statements": [response],  # Try to update state. But not working.
+                "statements": [response],
             }
         )
 
