@@ -1,30 +1,27 @@
-from functools import partial
-
 from langgraph.graph import END, START, StateGraph  # noqa
+from langgraph.prebuilt import ToolNode
 
 from tex.agents.base_agent import BaseAgent
+from tex.agents.form_1040 import Form1040Agent
 from tex.agents.schemas import ConfigSchema, FormInput
-
-# from tex.tools.call_agents import create_handoff_tool
-from tex.tools.call_model import call_model
-
-# from tex.tools.call_model import call_model
+from tex.tools import ToolFactory
+from tex.tools.call_agents import create_handoff_tool
+from tex.tools.call_model import create_call_model
 
 
-async def select_form(state: FormInput):
+def should_continue(state: FormInput):
     last_message = state["messages"][-1]
+    print("should continue", last_message)
 
     if last_message.tool_calls:
-        return "continue"
-    #     # Return the form name.
-    #     return last_message.tool_calls[0]["name"]
+        return "tools"
 
     return END
 
 
 class FormAgent(BaseAgent):
-    name: str = "form_agent"
-    model: str = "gemini_chat"
+    name: str = "form"
+    model_name: str = "gemini_chat"
 
     def __init__(
         self,
@@ -34,21 +31,39 @@ class FormAgent(BaseAgent):
             config_schema=ConfigSchema,
         )
 
-        _call_model = partial(
-            call_model,
-            model_name=self.model,
-        )  # noqa
+        # Define agents
+        f1040_agent = Form1040Agent(year=2024)  # .get()
 
+        # Define tools
+        f1040_agent_tool = create_handoff_tool(
+            agent_name=f1040_agent.name,
+            description="Transfer user to an agent to file tax form 1040.",
+        )
+
+        _call_model = create_call_model(
+            model_name=self.model_name,
+            tools=[
+                f1040_agent_tool,
+                ToolFactory.get("multiply"),
+            ],
+        )  # noqa
+        tool_node = ToolNode([f1040_agent_tool])
         # Add nodes
-        self.workflow.add_node("agent", _call_model)
+        self.workflow.add_node("call_model", _call_model)
+        self.workflow.add_node(f1040_agent.name, f1040_agent.get())
+        self.workflow.add_node("tools", tool_node)
 
         # Add edges
-        self.workflow.add_edge(START, "agent")
-        # self.workflow.add_conditional_edges(
-        #     "agent",
-        #     select_form,
-        #     [END, "agent"],
-        # )  # noqa
+        self.workflow.add_edge(START, "call_model")
+        self.workflow.add_conditional_edges(
+            "call_model",
+            should_continue,
+            {
+                "tools": "tools",  # f1040_agent.name,
+                END: END,
+            },
+        )  # noqa
+        # self.workflow.add_edge("tools", "call_model")
 
         self.workflow = self.workflow.compile()
 

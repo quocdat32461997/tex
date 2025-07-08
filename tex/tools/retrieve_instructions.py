@@ -1,12 +1,23 @@
-from langchain_core.vectorstores import InMemoryVectorStore
+from langchain.tools import tool
 
-from tex.agents.schemas import FormInput
-from tex.model import call_gemini_embedding
-
-# embeddings = OpenAIEmbeddings(model="text-embedding-3-large")
-vector_store = InMemoryVectorStore(call_gemini_embedding)
+from tex.RAG.app import retrieve_from_rag
+from tex.tools.tool_factory import ToolFactory
 
 
-def retrieve_instructions(state: FormInput):
-    retrieved_docs = vector_store.similarity_search(state["question"])
-    return {"context": retrieved_docs}
+@ToolFactory.register("retrieve_instructions")
+@tool
+def retrieve_instructions(query: str):
+    """
+    Function to retrieve instructions given the query input.
+
+    Parameters:
+        query: string contains the query input.
+
+    Returns:
+        A list of retrieved documents.
+    """
+
+    return retrieve_from_rag(
+        query=query,
+        k=5,
+    )

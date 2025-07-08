@@ -18,10 +18,14 @@ def call_fill_model(
 ):
     # Get model
     model = ModelFactory.get(model_name)
-
+    print("***********", state)
     # Binding tools in run time
     if len(tools) > 0:
         model.bind_tools(tools)
     messages = state["messages"]
+    statements = state["statments"]
     response = model.invoke(messages)
-    return {"messages": [response], "forms": state["forms"][form_name].update(response)}
+    return {
+        "messages": [response],
+        # "forms": state["forms"][form_name].update(response),
+    }
