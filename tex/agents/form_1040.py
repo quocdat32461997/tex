@@ -6,6 +6,7 @@ from tex.agents.base_agent import BaseAgent
 from tex.agents.schemas import FormInput
 from tex.data.utils import get_form_lines
 from tex.tools import ToolFactory, call_fill_model, retrieve_instructions  # noqa
+from tex.tools.extract_info import create_extract_info
 
 
 def should_continue(state: FormInput):
@@ -43,9 +44,15 @@ class Form1040Agent(BaseAgent):
             form_name=self.name,
         )
 
+        extract_w2 = create_extract_info(
+            model_name=self.model_name,
+            url="tex/data/income_statements/w2.png",
+        )
+
         # Add nodes and edges representing lines in form.
         self.workflow.add_node("finish_response", finish_response)
-        prev_line = START
+        self.workflow.add_node("extract_w2", extract_w2)
+        prev_line = "extract_w2"
         for line in lines:
             self.workflow.add_node(
                 line["name"],
@@ -60,6 +67,7 @@ class Form1040Agent(BaseAgent):
             self.workflow.add_edge(prev_line, line["name"])
             prev_line = line["name"]
 
+        self.workflow.add_edge(START, "extract_w2")
         self.workflow.add_edge(prev_line, "finish_response")
         self.workflow.add_edge("finish_response", END)
         self.workflow = self.workflow.compile()

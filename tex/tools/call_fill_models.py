@@ -23,8 +23,9 @@ def call_fill_model(
     if len(tools) > 0:
         model.bind_tools(tools)
     messages = state["messages"]
+    statements = state["statments"]
     response = model.invoke(messages)
     return {
         "messages": [response],
-        "forms": state["forms"][form_name].update(response),
+        # "forms": state["forms"][form_name].update(response),
     }

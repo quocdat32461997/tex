@@ -20,8 +20,8 @@ class FormInput(MessagesState):
     """
 
     messages: Annotated[List[AnyMessage], add_messages]
-    forms: Dict[str, Dict[str, Dict[str, Any]]]
-    statments: Dict[str, Dict[str, Dict[str, Any]]]
+    forms: Annotated[List[AnyMessage], add_messages]
+    statments: Annotated[List[AnyMessage], add_messages]
 
 
 class ConfigSchema(TypedDict):
