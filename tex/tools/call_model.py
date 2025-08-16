@@ -1,4 +1,3 @@
-from functools import partial
 from typing import List
 
 from langchain_core.runnables import RunnableConfig

@@ -1,14 +1,9 @@
-from functools import partial
-
 from langgraph.graph import END, START, StateGraph  # noqa
 
 from tex.agents.base_agent import BaseAgent
 from tex.agents.schemas import FormInput
 from tex.data.utils import get_form_lines
 from tex.registry import ReActRegistry, ToolRegistry
-from tex.tools import call_fill_model, retrieve_instructions  # noqa
-
-# from tex.tools.extract_info import create_extract_info
 
 
 def should_continue(state: FormInput):
@@ -63,8 +58,8 @@ class Form1040Agent(BaseAgent):
         for line in lines:
             self.workflow.add_node(
                 line["name"],
-                partial(
-                    call_fill_model,
+                ReActRegistry.get(
+                    name="call_fill_model",
                     form_name=self.name,
                     line=line["context"],
                     question=line["question"],

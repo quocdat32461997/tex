@@ -49,13 +49,7 @@ class FormAgent(BaseAgent):
                 ToolRegistry.get("multiply"),
             ],
         )
-        # _call_model = create_call_model(
-        #     model_name=self.model_name,
-        #     tools=[
-        #         f1040_agent_tool,
-        #         ToolRegistry.get("multiply"),
-        #     ],
-        # )  # noqa
+
         tool_node = ToolNode([f1040_agent_tool])
         # Add nodes
         self.workflow.add_node("call_model", call_model)
