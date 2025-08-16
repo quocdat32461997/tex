@@ -5,8 +5,10 @@ from langgraph.graph import END, START, StateGraph  # noqa
 from tex.agents.base_agent import BaseAgent
 from tex.agents.schemas import FormInput
 from tex.data.utils import get_form_lines
-from tex.tools import ToolFactory, call_fill_model, retrieve_instructions  # noqa
-from tex.tools.extract_info import create_extract_info
+from tex.registry import ReActRegistry, ToolRegistry
+from tex.tools import call_fill_model, retrieve_instructions  # noqa
+
+# from tex.tools.extract_info import create_extract_info
 
 
 def should_continue(state: FormInput):
@@ -44,7 +46,12 @@ class Form1040Agent(BaseAgent):
             form_name=self.name,
         )
 
-        extract_w2 = create_extract_info(
+        # extract_w2 = create_extract_info(
+        #     model_name=self.model_name,
+        #     url="tex/data/income_statements/w2.png",
+        # )
+        extract_w2 = ReActRegistry.get(
+            "extract_info",
             model_name=self.model_name,
             url="tex/data/income_statements/w2.png",
         )
@@ -63,7 +70,7 @@ class Form1040Agent(BaseAgent):
                     question=line["question"],
                     instruction=line["comprehensive_context"],
                     model_name=self.model_name,
-                    tools=[ToolFactory.get("retrieve_instructions")],
+                    tools=[ToolRegistry.get("retrieve_instructions")],
                 ),
             )
             self.workflow.add_edge(prev_line, line["name"])

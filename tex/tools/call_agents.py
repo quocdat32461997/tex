@@ -6,14 +6,14 @@ from langgraph.prebuilt import InjectedState
 from langgraph.types import Command, Send
 
 # from tex.agents.schemas import FormInput
-from tex.tools.tool_registry import ToolFactory
+from tex.registry import ToolRegistry
 
 
 def create_handoff_tool(*, agent_name: str, description: str | None = None):
     name = f"transfer_to_{agent_name}"
     description = description or f"Transfer to {agent_name}"
 
-    @ToolFactory.register(name=name)
+    @ToolRegistry.register(name=name)
     @tool(name, description=description)
     def handoff_tool(
         state: Annotated[MessagesState, InjectedState],

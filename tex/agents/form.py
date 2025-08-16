@@ -4,9 +4,10 @@ from langgraph.prebuilt import ToolNode
 from tex.agents.base_agent import BaseAgent
 from tex.agents.form_1040 import Form1040Agent
 from tex.agents.schemas import ConfigSchema, FormInput
-from tex.tools import ToolFactory
+from tex.registry import ReActRegistry, ToolRegistry
 from tex.tools.call_agents import create_handoff_tool
-from tex.tools.call_model import create_call_model
+
+# from tex.tools.call_model import create_call_model
 
 
 def should_continue(state: FormInput):
@@ -40,16 +41,24 @@ class FormAgent(BaseAgent):
             description="Transfer user to an agent to file tax form 1040.",
         )
 
-        _call_model = create_call_model(
+        call_model = ReActRegistry.get(
+            "call_model",
             model_name=self.model_name,
             tools=[
                 f1040_agent_tool,
-                ToolFactory.get("multiply"),
+                ToolRegistry.get("multiply"),
             ],
-        )  # noqa
+        )
+        # _call_model = create_call_model(
+        #     model_name=self.model_name,
+        #     tools=[
+        #         f1040_agent_tool,
+        #         ToolRegistry.get("multiply"),
+        #     ],
+        # )  # noqa
         tool_node = ToolNode([f1040_agent_tool])
         # Add nodes
-        self.workflow.add_node("call_model", _call_model)
+        self.workflow.add_node("call_model", call_model)
         self.workflow.add_node(f1040_agent.name, f1040_agent.get())
         self.workflow.add_node("tools", tool_node)
 

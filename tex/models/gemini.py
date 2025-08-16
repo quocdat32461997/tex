@@ -4,9 +4,9 @@ import dotenv
 from google import genai
 from langchain_google_genai import ChatGoogleGenerativeAI
 
-dotenv.load_dotenv()
+from tex.registry import ModelRegistry
 
-from tex.models.model_registry import ModelRegistry
+dotenv.load_dotenv()
 
 
 @ModelRegistry.register("gemini_chat")

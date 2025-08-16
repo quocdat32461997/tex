@@ -1,6 +1,6 @@
 from langchain.tools import tool
 
-from tex.tools.tool_registry import ToolRegistry
+from tex.registry import ToolRegistry
 
 
 @ToolRegistry.register("multiply")

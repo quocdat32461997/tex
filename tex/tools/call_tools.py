@@ -1,7 +1,7 @@
 from langchain_core.messages import ToolMessage
 
 from tex.agents.schemas import FormInput
-from tex.tools.tool_registry import ToolRegistry
+from tex.registry import ToolRegistry
 
 
 # Define our tool node: This function is not working. Use ToolNode instead.

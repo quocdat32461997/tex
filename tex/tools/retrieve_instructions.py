@@ -1,10 +1,10 @@
 from langchain.tools import tool
 
 from tex.RAG.app import retrieve_from_rag
-from tex.tools.tool_registry import ToolFactory
+from tex.registry import ToolRegistry
 
 
-@ToolFactory.register("retrieve_instructions")
+@ToolRegistry.register("retrieve_instructions")
 @tool
 def retrieve_instructions(query: str):
     """
