@@ -1,7 +1,7 @@
 from langchain.tools import tool
 
 from tex.RAG.app import retrieve_from_rag
-from tex.tools.tool_factory import ToolFactory
+from tex.tools.tool_registry import ToolFactory
 
 
 @ToolFactory.register("retrieve_instructions")

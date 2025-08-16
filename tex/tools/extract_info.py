@@ -6,7 +6,7 @@ from langchain_core.runnables import RunnableConfig
 from langgraph.types import Command
 
 from tex.agents.schemas import FormInput
-from tex.model import ModelFactory
+from tex.models import ModelRegistry
 
 
 def create_extract_info(  # state and config are two default runtime params.
@@ -38,7 +38,7 @@ def create_extract_info(  # state and config are two default runtime params.
                 return {"messages": [response]}
         """
         # Get model
-        model = ModelFactory.get(model_name)
+        model = ModelRegistry.get(model_name)
 
         # Binding tools in run time
         if len(tools) > 0:

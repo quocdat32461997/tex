@@ -4,7 +4,7 @@ from langchain_core.messages import HumanMessage
 from langchain_core.runnables import RunnableConfig
 
 from tex.agents.schemas import FormInput
-from tex.model import ModelFactory
+from tex.models import ModelRegistry
 
 
 def call_fill_model(
@@ -20,7 +20,7 @@ def call_fill_model(
     tools: List[str] = [],
 ):
     # Get model
-    model = ModelFactory.get(model_name)
+    model = ModelRegistry.get(model_name)
     print("***********", state)
     # Binding tools in run time
     if len(tools) > 0:

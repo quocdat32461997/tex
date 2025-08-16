@@ -6,7 +6,7 @@ from langgraph.prebuilt import InjectedState
 from langgraph.types import Command, Send
 
 # from tex.agents.schemas import FormInput
-from tex.tools.tool_factory import ToolFactory
+from tex.tools.tool_registry import ToolFactory
 
 
 def create_handoff_tool(*, agent_name: str, description: str | None = None):
