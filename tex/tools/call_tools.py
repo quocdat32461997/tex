@@ -5,7 +5,7 @@ from tex.registry import ToolRegistry
 
 
 # Define our tool node: This function is not working. Use ToolNode instead.
-def call_tools(state: FormInput):
+def call_tools(state: FormInput) -> FormInput:
     outputs = []
     # Iterate over the tool calls in the last message
     for tool_call in state["messages"][-1].tool_calls:
@@ -32,3 +32,6 @@ def call_tools(state: FormInput):
             )
         )
     return {"messages": outputs}
+
+
+__all__ = ["call_tools"]

@@ -1,29 +1,21 @@
 import base64
-from typing import List
 
 from langchain_core.runnables import RunnableConfig
-from langgraph.types import Command
+from langgraph.types import Command, interrupt
 
 from tex.agents.schemas import FormInput
+from tex.constants import STATUS
 from tex.registry import ModelRegistry, ReActRegistry
 
 
-# def create_extract_info(  # state and config are two default runtime params.
-#     # Other static parameters
-#     model_name: str,
-#     url: str,
-#     tools: List[str] = [],
-# ):
-@ReActRegistry.register("extract_info")
-def extract_info(
+@ReActRegistry.register("extract_from_image")
+def extract_from_image(
     # state and config are two default runtime params.
     state: FormInput,
     config: RunnableConfig,
-    # Other static parameters
-    url: str,
     model_name: str,
-    tools: List[str] = [],
-):
+    next_agent: str,
+) -> FormInput:
     """
     Follow below script to get specific on run (https://langchain-ai.github.io/langgraph/how-tos/graph-api/#add-runtime-configuration). # noqa
         MODELS = {
@@ -40,13 +32,18 @@ def extract_info(
     # Get model
     model = ModelRegistry.get(model_name)
 
-    # Binding tools in run time
-    if len(tools) > 0:
-        model = model.bind_tools(tools)
+    # Get human input
+    input = interrupt(value="Please upload the file.")
+    # input = "tex/db/statement_db/w2.png"
+    if isinstance(input, str) is True:
+        with open(input, "rb") as file:
+            image_data = file.read()
+            image_data = base64.b64encode(image_data).decode("utf-8")
+    elif isinstance(input, bytes) is True:
+        image_data = base64.b64encode(input).decode("utf-8")
+    else:
+        raise ValueError("Input must be a file path or bytes.")
 
-    with open(url, "rb") as file:
-        image_data = file.read()
-        image_data = base64.b64encode(image_data).decode("utf-8")
     # Invoke model
     response = model.invoke(
         [
@@ -68,16 +65,13 @@ def extract_info(
         ]
     )
     return Command(
+        goto=next_agent,
         update={
-            "messages": [response],
+            "messages": [],
             "statements": [response],
-        }
+            "status": STATUS.SUCCESS,
+        },  # [response],
     )
 
 
-# return partial(
-#     extract_info,
-#     model_name=model_name,
-#     tools=tools,
-#     url=url,
-# )
+__all__ = ["extract_from_image"]

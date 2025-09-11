@@ -23,9 +23,12 @@ class ToolRegistry(BaseRegistry):
         return inner_wrapper
 
     @classmethod
-    def get(cls, name: str) -> Callable:
+    def get(cls, name: str, **kwargs) -> Callable:
         assert name in cls.registry, f"Tool {name} does not exist in."  # noqa
-        return cls.registry[name]
+        if name == "handoff_tool":
+            return cls.registry[name](**kwargs)
+        else:
+            return cls.registry[name]
 
 
 class ModelRegistry(BaseRegistry):
@@ -48,6 +51,11 @@ class ModelRegistry(BaseRegistry):
 
 
 class ReActRegistry(BaseRegistry):
+    """
+    Collections of ReAct's components, including tools and models.
+    Each ReAct acts according to pre-defined workflow (StateGraph).
+    """
+
     registry = {}
 
     @classmethod
@@ -62,5 +70,5 @@ class ReActRegistry(BaseRegistry):
 
     @classmethod
     def get(cls, name: str, **kwargs) -> Callable:
-        assert name in cls.registry, f"Model {name} does not exist in."  # noqa
+        assert name in cls.registry, f"ReAct {name} does not exist in."  # noqa
         return partial(cls.registry[name], **kwargs)

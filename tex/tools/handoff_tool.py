@@ -1,25 +1,25 @@
 from typing import Annotated
 
 from langchain_core.tools import InjectedToolCallId, tool
-from langgraph.graph import MessagesState
 from langgraph.prebuilt import InjectedState
-from langgraph.types import Command, Send
+from langgraph.types import Command
 
-# from tex.agents.schemas import FormInput
+from tex.agents.schemas import FormInput
+from tex.constants import STATUS
 from tex.registry import ToolRegistry
 
 
-def create_handoff_tool(*, agent_name: str, description: str | None = None):
+@ToolRegistry.register("handoff_tool")
+def handoff_tool(*, agent_name: str, description: str | None = None):
     name = f"transfer_to_{agent_name}"
     description = description or f"Transfer to {agent_name}"
 
-    @ToolRegistry.register(name=name)
     @tool(name, description=description)
-    def handoff_tool(
-        state: Annotated[MessagesState, InjectedState],
+    def _handoff_tool(
+        state: Annotated[FormInput, InjectedState],
         tool_call_id: Annotated[str, InjectedToolCallId],
     ) -> Command:
-
+        print("*********", state)
         tool_message = {
             "role": "tool",
             "content": f"Successfully transferred to {agent_name}",
@@ -29,8 +29,14 @@ def create_handoff_tool(*, agent_name: str, description: str | None = None):
 
         return Command(
             goto=agent_name,
-            update={"messages": state["messages"] + [tool_message]},
+            update={
+                "messages": state["messages"] + [tool_message],
+                "status": STATUS.SUCCESS,
+            },
             # graph=Command.PARENT,
         )
 
-    return handoff_tool
+    return _handoff_tool
+
+
+__all__ = ["handoff_tool"]

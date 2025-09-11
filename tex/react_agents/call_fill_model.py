@@ -4,6 +4,7 @@ from langchain_core.messages import HumanMessage
 from langchain_core.runnables import RunnableConfig
 
 from tex.agents.schemas import FormInput
+from tex.constants import STATUS
 from tex.registry import ModelRegistry, ReActRegistry
 
 
@@ -51,4 +52,8 @@ def call_fill_model(
     return {
         "messages": [response],
         "forms": [instruction.format(answer=extract_value(response.content))],
+        "status": STATUS.SUCCESS,
     }
+
+
+__all__ = ["call_fill_model"]

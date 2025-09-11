@@ -1,7 +1,7 @@
 import mlflow
 from langchain_core.messages import convert_to_messages
 
-from tex.agents.form import FormAgent
+from tex.agents.tex_agent import TexAgent
 
 # import asyncio
 
@@ -55,7 +55,7 @@ def pretty_print_messages(update, last_message=False):
         print("\n")
 
 
-agent_obj = FormAgent()
+agent_obj = TexAgent()
 agent = agent_obj.get()
 
 if __name__ == "__main__":

@@ -1,0 +1,305 @@
+{
+    "lines": [
+        {
+            "name": "Line 1a",
+            "context": "Line 1a: Total amount from Form(s) W-2, box 1 (see instructions): {answer}.",
+            "question": "Fill in the answer placeholder in the {answer} format. If you are not sure, respond {None}",
+            "answer": null,
+            "comprehensive_context": "Line 1a: Total amount from Form(s) W-2, box 1 (see instructions): {answer}"
+        },
+        {
+            "name": "Line 1b",
+            "context": "Line 1b: Household employee wages not reported on Form(s) W-2: {answer}",
+            "question": "Fill in the answer placeholder in the {answer} format. If you are not sure, respond {None}",
+            "answer": null,
+            "comprehensive_context": "Line 1b: Household employee wages not reported on Form(s) W-2: {answer}"
+        },
+        {
+            "name": "Line 1c",
+            "context": "Line 1c: Tip income not reported on line 1a (see instructions)",
+            "question": "Fill in the answer placeholder in the {answer} format. If you are not sure, respond {None}",
+            "answer": null,
+            "comprehensive_context": "Line 1c: Tip income not reported on line 1a (see instructions): {answer}"
+        },
+        {
+            "name": "Line 1d",
+            "context": "Line 1d: Medicaid waiver payments not reported on Form(s) W-2 (see instructions)",
+            "question": "Fill in the answer placeholder in the {answer} format. If you are not sure, respond {None}",
+            "answer": null,
+            "comprehensive_context": "Line 1d: Medicaid waiver payments not reported on Form(s) W-2 (see instructions): {answer}"
+        },
+        {
+            "name": "Line 1e",
+            "context": "Line 1e: Taxable dependent care benefits from Form 2441, line 26",
+            "question": "Fill in the answer placeholder in the {answer} format. If you are not sure, respond {None}",
+            "answer": null,
+            "comprehensive_context": "Line 1e: Taxable dependent care benefits from Form 2441, line 26: {answer}"
+        },
+        {
+            "name": "Line 1f",
+            "context": "Line 1f: Employer-provided adoption benefits from Form 8839, line 29",
+            "question": "Fill in the answer placeholder in the {answer} format. If you are not sure, respond {None}",
+            "answer": null,
+            "comprehensive_context": "Line 1f: Employer-provided adoption benefits from Form 8839, line 29: {answer}"
+        },
+        {
+            "name": "Line 1g",
+            "context": "Line 1g: Wages from Form 8919, line 6",
+            "question": "Fill in the answer placeholder in the {answer} format. If you are not sure, respond {None}",
+            "answer": null,
+            "comprehensive_context": "Line 1g: Wages from Form 8919, line 6: {answer}"
+        },
+        {
+            "name": "Line 1h",
+            "context": "Line 1h: Other earned income (see instructions)",
+            "question": "Fill in the answer placeholder in the {answer} format. If you are not sure, respond {None}",
+            "answer": null,
+            "comprehensive_context": "Line 1h: Other earned income (see instructions): {answer}"
+        },
+        {
+            "name": "Line 1i",
+            "context": "Line 1i: Nontaxable combat pay election (see instructions)",
+            "question": "Fill in the answer placeholder in the {answer} format. If you are not sure, respond {None}",
+            "answer": null,
+            "comprehensive_context": "Line 1i: Nontaxable combat pay election (see instructions): {answer}"
+        },
+        {
+            "name": "Line 1z",
+            "context": "Line 1z: Add lines 1a through 1h",
+            "question": "Fill in the answer placeholder in the {answer} format. If you are not sure, respond {None}",
+            "answer": null,
+            "comprehensive_context": "Line 1z: Add lines 1a through 1h: {answer}"
+        },
+        {
+            "name": "Line 2a",
+            "context": "Line 2a: Tax-exempt interest",
+            "question": "Fill in the answer placeholder in the {answer} format. If you are not sure, respond {None}",
+            "answer": null,
+            "comprehensive_context": "Line 2a: Tax-exempt interest: {answer}"
+        },
+        {
+            "name": "Line 2b",
+            "context": "Line 2b: Taxable interest",
+            "question": "Fill in the answer placeholder in the {answer} format. If you are not sure, respond {None}",
+            "answer": null,
+            "comprehensive_context": "Line 2b: Taxable interest: {answer}"
+        },
+        {
+            "name": "Line 3a",
+            "context": "Line 3a: Qualified dividends",
+            "question": "Fill in the answer placeholder in the {answer} format. If you are not sure, respond {None}",
+            "answer": null,
+            "comprehensive_context": "Line 3a: Qualified dividends: {answer}"
+        },
+        {
+            "name": "Line 3b",
+            "context": "Line 3b: Ordinary dividends",
+            "question": "Fill in the answer placeholder in the {answer} format. If you are not sure, respond {None}",
+            "answer": null,
+            "comprehensive_context": "Line 3b: Ordinary dividends: {answer}"
+        },
+        {
+            "name": "Line 4a",
+            "context": "Line 4a: IRA distributions",
+            "question": "Fill in the answer placeholder in the {answer} format. If you are not sure, respond {None}",
+            "answer": null,
+            "comprehensive_context": "Line 4a: IRA distributions: {answer}"
+        },
+        {
+            "name": "Line 4b",
+            "context": "Line 4b: Taxable amount",
+            "question": "Fill in the answer placeholder in the {answer} format. If you are not sure, respond {None}",
+            "answer": null,
+            "comprehensive_context": "Line 4b: Taxable amount: {answer}"
+        },
+        {
+            "name": "Line 5a",
+            "context": "Line 5a: Pensions and annuities",
+            "question": "Fill in the answer placeholder in the {answer} format. If you are not sure, respond {None}",
+            "answer": null,
+            "comprehensive_context": "Line 5a: Pensions and annuities: {answer}"
+        },
+        {
+            "name": "Line 5b",
+            "context": "Line 5b: Taxable amount",
+            "question": "Fill in the answer placeholder in the {answer} format. If you are not sure, respond {None}",
+            "answer": null,
+            "comprehensive_context": "Line 5b: Taxable amount: {answer}"
+        },
+        {
+            "name": "Line 6a",
+            "context": "Line 6a: Social security benefits",
+            "question": "Fill in the answer placeholder in the {answer} format. If you are not sure, respond {None}",
+            "answer": null,
+            "comprehensive_context": "Line 6a: Social security benefits: {answer}"
+        },
+        {
+            "name": "Line 6b",
+            "context": "Line 5b: Taxable amount",
+            "question": "Fill in the answer placeholder in the {answer} format. If you are not sure, respond {None}",
+            "answer": null,
+            "comprehensive_context": "Line 6b: Taxable amount: {answer}"
+        },
+        {
+            "name": "Line 6c",
+            "context": "Line 6c: If you elect to use the lump-sum election method, check here (see instructions)",
+            "question": "Fill in the answer placeholder in the {answer} format. If you are not sure, respond {None}",
+            "answer": null,
+            "comprehensive_context": "Line 6c: If you elect to use the lump-sum election method, check here (see instructions): {answer}"
+        },
+        {
+            "name": "Line 7",
+            "context": "Line 7: Capital gain or (loss). Attach Schedule D if required. If not required, check here",
+            "question": "Fill in the answer placeholder in the {answer} format. If you are not sure, respond {None}",
+            "answer": null,
+            "comprehensive_context": "Line 7: Capital gain or (loss). Attach Schedule D if required. If not required, check here: {answer}"
+        },
+        {
+            "name": "Line 8",
+            "context": "Line 8: Additional income from Schedule 1, line 10",
+            "question": "Fill in the answer placeholder in the {answer} format. If you are not sure, respond {None}",
+            "answer": null,
+            "comprehensive_context": "Line 8: Additional income from Schedule 1, line 10: {answer}"
+        },
+        {
+            "name": "Line 9",
+            "context": "Line 9: Add lines 1z, 2b, 3b, 4b, 5b, 6b, 7, and 8. This is your total income",
+            "question": "Fill in the answer placeholder in the {answer} format. If you are not sure, respond {None}",
+            "answer": null,
+            "comprehensive_context": "Line 9: Add lines 1z, 2b, 3b, 4b, 5b, 6b, 7, and 8. This is your total income: {answer}"
+        },
+        {
+            "name": "Line 10",
+            "context": "Line 10: Adjustments to income from Schedule 1, line 26",
+            "question": "Fill in the answer placeholder in the {answer} format. If you are not sure, respond {None}",
+            "answer": null,
+            "comprehensive_context": "Line 10: Adjustments to income from Schedule 1, line 26: {answer}"
+        },
+        {
+            "name": "Line 11",
+            "context": "Line 11: Subtract line 10 from line 9. This is your adjusted gross income",
+            "question": "Fill in the answer placeholder in the {answer} format. If you are not sure, respond {None}",
+            "answer": null,
+            "comprehensive_context": "Line 11: Subtract line 10 from line 9. This is your adjusted gross income: {answer}"
+        },
+        {
+            "name": "Line 12",
+            "context": "Line 12: Standard deduction or itemized deductions (from Schedule A)",
+            "question": "Fill in the answer placeholder in the {answer} format. If you are not sure, respond {None}",
+            "answer": null,
+            "comprehensive_context": "Line 12: Standard deduction or itemized deductions (from Schedule A): {answer}"
+        },
+        {
+            "name": "Line 13",
+            "context": "Line 13: Qualified business income deduction from Form 8995 or Form 8995-A",
+            "question": "Fill in the answer placeholder in the {answer} format. If you are not sure, respond {None}",
+            "answer": null,
+            "comprehensive_context": "Line 13: Qualified business income deduction from Form 8995 or Form 8995-A: {answer}"
+        },
+        {
+            "name": "Line 14",
+            "context": "Line 14: Add lines 12 and 13",
+            "question": "Fill in the answer placeholder in the {answer} format. If you are not sure, respond {None}",
+            "answer": null,
+            "comprehensive_context": "Line 14: Add lines 12 and 13: {answer}"
+        },
+        {
+            "name": "Line 15",
+            "context": "Line 15: Subtract line 14 from line 11. If zero or less, enter -0-. This is your taxable income",
+            "question": "Fill in the answer placeholder in the {answer} format. If you are not sure, respond {None}",
+            "answer": null,
+            "comprehensive_context": "Line 15: Subtract line 14 from line 11. If zero or less, enter -0-. This is your taxable income: {answer}"
+        },
+        {
+            "name": "Line 16",
+            "context": "Line 16: Tax (see instructions). Check if any from Form(s) 1) [ ] 8814, 2) [ ] 4972, 3) [ ] ___",
+            "question": "Fill in the answer placeholder in the {answer} format. If you are not sure, respond {None}",
+            "answer": null,
+            "comprehensive_context": "Line 16: Tax (see instructions). Check if any from Form(s) 1) [ ] 8814, 2) [ ] 4972, 3) [ ] ___: {answer}"
+        },
+        {
+            "name": "Line 17",
+            "context": "Line 17: Amount from Schedule 2, line 3",
+            "question": "Fill in the answer placeholder in the {answer} format. If you are not sure, respond {None}",
+            "answer": null,
+            "comprehensive_context": "Line 17: Amount from Schedule 2, line 3: {answer}"
+        },
+        {
+            "name": "Line 18",
+            "context": "Line 18: Add lines 16 and 17",
+            "question": "Fill in the answer placeholder in the {answer} format. If you are not sure, respond {None}",
+            "answer": null,
+            "comprehensive_context": "Line 18: Add lines 16 and 17: {answer}"
+        },
+        {
+            "name": "Line 19",
+            "context": "Line 19: Child tax credit or credit for other dependents from Schedule 8812",
+            "question": "Fill in the answer placeholder in the {answer} format. If you are not sure, respond {None}",
+            "answer": null,
+            "comprehensive_context": "Line 19: Child tax credit or credit for other dependents from Schedule 8812: {answer}"
+        },
+        {
+            "name": "Line 20",
+            "context": "Line 20: Amount from Schedule 3, line 8",
+            "question": "Fill in the answer placeholder in the {answer} format. If you are not sure, respond {None}",
+            "answer": null,
+            "comprehensive_context": "Line 20: Amount from Schedule 3, line 8: {answer}"
+        },
+        {
+            "name": "Line 21",
+            "context": "Line 21: Add lines 19 and 20",
+            "question": "Fill in the answer placeholder in the {answer} format. If you are not sure, respond {None}",
+            "answer": null,
+            "comprehensive_context": "Line 21: Add lines 19 and 20: {answer}"
+        },
+        {
+            "name": "Line 22",
+            "context": "Line 22: Subtract line 21 from line 18. If zero or less, enter -0-",
+            "question": "Fill in the answer placeholder in the {answer} format. If you are not sure, respond {None}",
+            "answer": null,
+            "comprehensive_context": "Line 22: Subtract line 21 from line 18. If zero or less, enter -0-: {answer}"
+        },
+        {
+            "name": "Line 23",
+            "context": "Line 23: Other taxes, including self-employment tax, from Schedule 2, line 21",
+            "question": "Fill in the answer placeholder in the {answer} format. If you are not sure, respond {None}",
+            "answer": null,
+            "comprehensive_context": "Line 23: Other taxes, including self-employment tax, from Schedule 2, line 21: {answer}"
+        },
+        {
+            "name": "Line 24",
+            "context": "Line 24: Add lines 22 and 23. This is your total tax",
+            "question": "Fill in the answer placeholder in the {answer} format. If you are not sure, respond {None}",
+            "answer": null,
+            "comprehensive_context": "Line 24: Add lines 22 and 23. This is your total tax: {answer}"
+        },
+        {
+            "name": "Line 25a",
+            "context": "Line 25a: Federal income tax withheld from Form(s) W-2",
+            "question": "Fill in the answer placeholder in the {answer} format. If you are not sure, respond {None}",
+            "answer": null,
+            "comprehensive_context": "Line 25a: Federal income tax withheld from Form(s) W-2: {answer}"
+        },
+        {
+            "name": "Line 25b",
+            "context": "Line 25b: Federal income tax withheld from Form(s) 1099",
+            "question": "Fill in the answer placeholder in the {answer} format. If you are not sure, respond {None}",
+            "answer": null,
+            "comprehensive_context": "Line 25b: Federal income tax withheld from Form(s) 1099: {answer}"
+        },
+        {
+            "name": "Line 25c",
+            "context": "Line 25c: Federal income tax withheld from Other forms (see instructions)",
+            "question": "Fill in the answer placeholder in the {answer} format. If you are not sure, respond {None}",
+            "answer": null,
+            "comprehensive_context": "Line 25c: Federal income tax withheld from Other forms (see instructions): {answer}"
+        },
+        {
+            "name": "Line 25d",
+            "context": "Line 25d: Add lines 25a through 25c",
+            "question": "Fill in the answer placeholder in the {answer} format. If you are not sure, respond {None}",
+            "answer": null,
+            "comprehensive_context": "Line 25d: Add lines 25a through 25c: {answer}"
+        }
+    ]
+}

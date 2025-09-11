@@ -1,4 +1,4 @@
-from typing import Annotated, Any, Dict, List
+from typing import Annotated, List, NotRequired, Optional
 
 from langchain_core.messages import AnyMessage
 from langgraph.graph import MessagesState, add_messages  # noqa
@@ -22,7 +22,20 @@ class FormInput(MessagesState):
     messages: Annotated[List[AnyMessage], add_messages]
     statements: Annotated[List[AnyMessage], add_messages]
     forms: Annotated[List[AnyMessage], add_messages]
+    status: Optional[str] = None
 
 
 class ConfigSchema(TypedDict):
     mode: str
+
+
+class HumanInput(TypedDict):
+    input: str
+
+
+class StatementInput(TypedDict):
+    need_w2: NotRequired[bool]
+    need_1099: NotRequired[bool]
+
+
+__all__ = ["FormInput", "ConfigSchema", "StatementInput", "HumanInput"]

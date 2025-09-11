@@ -3,16 +3,10 @@ from typing import List
 from langchain_core.runnables import RunnableConfig
 
 from tex.agents.schemas import FormInput
+from tex.constants import STATUS
 from tex.registry import ModelRegistry, ReActRegistry
 
-# from tex.tools.tool_factory import ToolFactory
 
-
-# def create_call_model(  # state and config are two default runtime params.
-#     # Other static parameters
-#     model_name: str,
-#     tools: List[str] = [],
-# ):
 @ReActRegistry.register("call_model")
 def call_model(
     # state and config are two default runtime params.
@@ -21,7 +15,7 @@ def call_model(
     # Other static parameters
     model_name: str,
     tools: List[str] = [],
-):
+) -> FormInput:
     """
     Follow below script to get specific on run (https://langchain-ai.github.io/langgraph/how-tos/graph-api/#add-runtime-configuration). # noqa
         MODELS = {
@@ -45,7 +39,10 @@ def call_model(
     # Invoke model
     response = model.invoke(state["messages"])
 
-    return {"messages": [response]}
+    return {
+        "messages": [response],
+        "status": STATUS.SUCCESS,
+    }
 
 
-# return partial(call_model, model_name=model_name, tools=tools)
+__all__ = ["call_model"]
