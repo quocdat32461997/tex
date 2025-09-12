@@ -1,8 +1,10 @@
-from typing import Annotated, List, NotRequired, Optional
+from typing import Annotated, Any, Dict, List, NotRequired
 
 from langchain_core.messages import AnyMessage
 from langgraph.graph import MessagesState, add_messages  # noqa
 from typing_extensions import TypedDict
+
+from tex.agents.utils import update_lookup
 
 
 class FormInput(MessagesState):
@@ -20,9 +22,9 @@ class FormInput(MessagesState):
     """
 
     messages: Annotated[List[AnyMessage], add_messages]
-    statements: Annotated[List[AnyMessage], add_messages]
+    statements: Annotated[Dict[str, List[Any]], update_lookup]  #
+
     forms: Annotated[List[AnyMessage], add_messages]
-    status: Optional[str] = None
 
 
 class ConfigSchema(TypedDict):

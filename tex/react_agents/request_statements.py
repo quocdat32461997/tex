@@ -1,9 +1,9 @@
 import json
-import re
 
 from tex.agents.schemas import FormInput, StatementInput
 from tex.constants import NUM_TRIALS
 from tex.registry import ModelRegistry, ReActRegistry
+from tex.utils.json_format import clean_json_string
 
 
 @ReActRegistry.register("request_statements")
@@ -27,11 +27,7 @@ def request_statements(state: FormInput) -> StatementInput:
         try:
             response = model.invoke(prompt)
             result = json.loads(
-                re.sub(
-                    f"`*(json)*\n*\s*",  # noqa
-                    "",
-                    response.content,
-                )
+                clean_json_string(response.content),
             )
             print("request_statements result", result)
             break

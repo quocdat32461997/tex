@@ -54,10 +54,17 @@ class Form1040Agent(BaseAgent):
         )
 
         # Define agents
-        extract_statement = ReActRegistry.get(
-            "extract_from_image",
+        extract_w2 = ReActRegistry.get(
+            "extract_statement",
             model_name=self.model_name,
             next_agent="request_statement",
+            statement_name="w2",
+        )
+        extract_1099 = ReActRegistry.get(
+            "extract_statement",
+            model_name=self.model_name,
+            next_agent="request_statement",
+            statement_name="1099",
         )
         call_model = ReActRegistry.get(
             "call_model",
@@ -65,8 +72,9 @@ class Form1040Agent(BaseAgent):
         )
 
         # Add nodes and edges representing lines in form.
-        workflow.add_node("extract_statement", extract_statement)
-        workflow.add_node("call_modeL", call_model)
+        workflow.add_node("extract_w2", extract_w2)
+        workflow.add_node("extract_1099", extract_1099)
+        workflow.add_node("call_model", call_model)
 
         workflow.add_edge(START, "check_missing_statements")
         workflow.add_node("check_missing_statements", check_missing_statements)
@@ -84,8 +92,8 @@ class Form1040Agent(BaseAgent):
             should_request_info,
             {
                 "process_f1040": "process_f1040",
-                "need_w2": "extract_statement",
-                "need_1099": "extract_statement",
+                "need_w2": "extract_w2",
+                "need_1099": "extract_1099",
             },
         )
 
