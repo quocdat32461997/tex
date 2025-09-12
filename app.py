@@ -3,12 +3,6 @@ from langchain_core.messages import convert_to_messages
 
 from tex.agents.tex_agent import TexAgent
 
-# import asyncio
-
-# from langgraph_sdk import get_client
-
-# client = get_client(url="http://localhost:2024")
-
 mlflow.set_tracking_uri("http://127.0.0.1:5000")
 mlflow.set_experiment("auto-tracing-demo")
 mlflow.langchain.autolog()

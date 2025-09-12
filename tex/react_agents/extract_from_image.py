@@ -4,7 +4,7 @@ import json
 from langchain_core.runnables import RunnableConfig
 from langgraph.types import Command, interrupt
 
-from tex.agents.schemas import FormInput
+from tex.agents.schemas import ExtractStatementInput, FormInput
 from tex.constants import NUM_TRIALS, STATUS
 from tex.registry import ModelRegistry, ReActRegistry
 from tex.utils.json_format import clean_json_string
@@ -84,16 +84,11 @@ def extract_from_image(
     )
 
 
-class ExtractStatementInput(TypeError):
-    statement_name: str
-    next_agent: str
-
-
 @ReActRegistry.register("extract_statement")
 def extract_statement(
     # state and config are two default runtime params.
     state: ExtractStatementInput,
-    # config: RunnableConfig,
+    config: RunnableConfig,
 ) -> FormInput:
     """
     Follow below script to get specific on run (https://langchain-ai.github.io/langgraph/how-tos/graph-api/#add-runtime-configuration). # noqa

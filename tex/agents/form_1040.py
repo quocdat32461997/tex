@@ -1,6 +1,6 @@
 from langchain_core.messages import AIMessage
 from langgraph.graph import END, START, StateGraph  # noqa
-from langgraph.types import Command, Send
+from langgraph.types import Send
 
 from tex.agents.base_agent import BaseAgent
 from tex.agents.schemas import FormInput, StatementInput
@@ -101,11 +101,14 @@ class Form1040Agent(BaseAgent):
         # workflow.add_node("tools", ToolNode([extract_w2]))
         workflow.add_node("process_f1040", process_f1040)
 
+        #  Routing to either request additional info or
+        #  continue to process f1040
         workflow.add_conditional_edges(
             "request_statement",
             should_request_info,
         )
 
+        # Sequence of agents to process f1040
         prev_line = "process_f1040"
         for line in lines[:3]:
             workflow.add_node(

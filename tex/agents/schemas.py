@@ -23,7 +23,7 @@ class FormInput(MessagesState):
 
     messages: Annotated[List[AnyMessage], add_messages]
     statements: Annotated[Dict[str, List[Any]], update_lookup]
-    forms: Annotated[List[AnyMessage], add_messages]
+    forms: Annotated[Dict[str, List[Any]], update_lookup]
 
 
 class ConfigSchema(TypedDict):
@@ -39,4 +39,15 @@ class StatementInput(TypedDict):
     need_1099: NotRequired[bool]
 
 
-__all__ = ["FormInput", "ConfigSchema", "StatementInput", "HumanInput"]
+class ExtractStatementInput(TypedDict):
+    statement_name: str
+    next_agent: str
+
+
+__all__ = [
+    "FormInput",
+    "ConfigSchema",
+    "StatementInput",
+    "HumanInput",
+    "ExtractStatementInput",
+]

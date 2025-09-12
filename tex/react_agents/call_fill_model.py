@@ -9,9 +9,12 @@ from tex.registry import ModelRegistry, ReActRegistry
 
 
 def extract_value(input) -> str:
-    if input.count("{") != 1 or input.count("}") != 1:
+    if input.count("{") != 1 and input.count("}") != 1:
+        return input.split("{")[-1].split("}")[0]
+    elif input.isnumeric() is True:
+        return input
+    else:
         raise ValueError(f"Wrong format: {input}")
-    return input.split("{")[-1].split("}")[0]
 
 
 @ReActRegistry.register("_call_fill_model")
@@ -55,7 +58,6 @@ def _call_fill_model(
 def call_fill_model(
     # runtime parameters
     state: FormInput,
-    config: RunnableConfig,
     # Other static parameters
     model_name: str,
     form_name: str,
@@ -63,7 +65,7 @@ def call_fill_model(
     question: str,
     instruction: str,
     tools: List[str] = [],
-):
+) -> FormInput:
     # Get model
     model = ModelRegistry.get(model_name)
 
@@ -88,13 +90,18 @@ def call_fill_model(
         Statements: {STATEMENT_LIST}
         Instruction: {line}
 
+        Follow the below command.
         {question}
         """
     response = model.invoke(PROMPT)
 
     return {
         "messages": [response],
-        "forms": [instruction.format(answer=extract_value(response.content))],
+        "forms": {
+            form_name: instruction.format(
+                answer=extract_value(response.content)
+            )  # noqa
+        },  # [instruction.format(answer=extract_value(response.content))],
     }
 
 
