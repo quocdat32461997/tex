@@ -84,14 +84,16 @@ def extract_from_image(
     )
 
 
+class ExtractStatementInput(TypeError):
+    statement_name: str
+    next_agent: str
+
+
 @ReActRegistry.register("extract_statement")
 def extract_statement(
     # state and config are two default runtime params.
-    state: FormInput,
-    config: RunnableConfig,
-    statement_name: str,  # Used as key to update statements
-    model_name: str,
-    next_agent: str,
+    state: ExtractStatementInput,
+    # config: RunnableConfig,
 ) -> FormInput:
     """
     Follow below script to get specific on run (https://langchain-ai.github.io/langgraph/how-tos/graph-api/#add-runtime-configuration). # noqa
@@ -107,7 +109,7 @@ def extract_statement(
             return {"messages": [response]}
     """
     # Get model
-    model = ModelRegistry.get(model_name)
+    model = ModelRegistry.get("gemini_chat")
 
     # Get human input
     # input = interrupt(value="Please upload the file.")
@@ -152,12 +154,8 @@ def extract_statement(
             print(f"Error parsing JSON: {response}", e)
             continue
     return Command(
-        goto=next_agent,
-        update={
-            "statements": {
-                statement_name: result
-            }  # [AIMessage(content=[{statement_name: result}])],
-        },  # [response],
+        goto=state["next_agent"],
+        update={"statements": {state["statement_name"]: result}},
     )
 
 

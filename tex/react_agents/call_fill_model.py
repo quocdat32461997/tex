@@ -95,7 +95,6 @@ def call_fill_model(
     return {
         "messages": [response],
         "forms": [instruction.format(answer=extract_value(response.content))],
-        "status": STATUS.SUCCESS,
     }
 
 

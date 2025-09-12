@@ -22,8 +22,7 @@ class FormInput(MessagesState):
     """
 
     messages: Annotated[List[AnyMessage], add_messages]
-    statements: Annotated[Dict[str, List[Any]], update_lookup]  #
-
+    statements: Annotated[Dict[str, List[Any]], update_lookup]
     forms: Annotated[List[AnyMessage], add_messages]
 
 

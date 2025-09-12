@@ -1,5 +1,6 @@
 from langchain_core.messages import AIMessage
 from langgraph.graph import END, START, StateGraph  # noqa
+from langgraph.types import Command, Send
 
 from tex.agents.base_agent import BaseAgent
 from tex.agents.schemas import FormInput, StatementInput
@@ -13,12 +14,33 @@ def should_request_info(state: StatementInput):
 
     # if last_message.tool_calls:
     #     return "tools"
-
+    routes = []
     if state["need_w2"] is True:
-        return "need_w2"
+        routes.append(
+            Send(
+                node="extract_statement",
+                arg={
+                    "statement_name": "w2",
+                    "next_agent": "request_statement",
+                },
+            )
+        )
+        # return "need_w2"
 
     if state["need_1099"] is True:
-        return "need_1099"
+        # return "need_1099"
+        routes.append(
+            Send(
+                node="extract_statement",
+                arg={
+                    "statement_name": "1099",
+                    "next_agent": "request_statement",
+                },
+            )
+        )
+
+    if len(routes) > 0:
+        return routes
 
     return "process_f1040"
 
@@ -53,28 +75,20 @@ class Form1040Agent(BaseAgent):
             form_name=self.name,
         )
 
-        # Define agents
-        extract_w2 = ReActRegistry.get(
-            "extract_statement",
-            model_name=self.model_name,
-            next_agent="request_statement",
-            statement_name="w2",
-        )
-        extract_1099 = ReActRegistry.get(
-            "extract_statement",
-            model_name=self.model_name,
-            next_agent="request_statement",
-            statement_name="1099",
-        )
-        call_model = ReActRegistry.get(
-            "call_model",
-            model_name=self.model_name,
-        )
-
         # Add nodes and edges representing lines in form.
-        workflow.add_node("extract_w2", extract_w2)
-        workflow.add_node("extract_1099", extract_1099)
-        workflow.add_node("call_model", call_model)
+        workflow.add_node(
+            "call_model",
+            ReActRegistry.get(
+                "call_model",
+                model_name=self.model_name,
+            ),
+        )
+        workflow.add_node(
+            "extract_statement",
+            ReActRegistry.get(
+                "extract_statement",
+            ),
+        )
 
         workflow.add_edge(START, "check_missing_statements")
         workflow.add_node("check_missing_statements", check_missing_statements)
@@ -90,11 +104,6 @@ class Form1040Agent(BaseAgent):
         workflow.add_conditional_edges(
             "request_statement",
             should_request_info,
-            {
-                "process_f1040": "process_f1040",
-                "need_w2": "extract_w2",
-                "need_1099": "extract_1099",
-            },
         )
 
         prev_line = "process_f1040"
