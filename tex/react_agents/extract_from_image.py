@@ -1,7 +1,6 @@
 import base64
 import json
 
-from langchain_core.messages import AIMessage
 from langchain_core.runnables import RunnableConfig
 from langgraph.types import Command, interrupt
 
@@ -36,8 +35,8 @@ def extract_from_image(
     model = ModelRegistry.get(model_name)
 
     # Get human input
-    # input = interrupt(value="Please upload the file.")
-    input = "tex/db/statement_db/w2.png"
+    input = interrupt(value="Please upload the file.")
+    # input = "tex/db/statement_db/w2.png"
     if isinstance(input, str) is True:
         with open(input, "rb") as file:
             image_data = file.read()
