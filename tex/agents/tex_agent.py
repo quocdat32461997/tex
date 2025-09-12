@@ -4,14 +4,12 @@ from langgraph.prebuilt import ToolNode
 from tex.agents.base_agent import BaseAgent
 from tex.agents.form_1040 import Form1040Agent
 from tex.agents.schemas import ConfigSchema, FormInput
-from tex.tools import ToolFactory
-from tex.tools.call_agents import create_handoff_tool
-from tex.tools.call_model import create_call_model
+from tex.registry import ReActRegistry, ToolRegistry
 
 
 def should_continue(state: FormInput):
     last_message = state["messages"][-1]
-    print("should continue", last_message)
+    print("should continue", last_message.tool_calls)
 
     if last_message.tool_calls:
         return "tools"
@@ -19,14 +17,14 @@ def should_continue(state: FormInput):
     return END
 
 
-class FormAgent(BaseAgent):
+class TexAgent(BaseAgent):
     name: str = "form"
     model_name: str = "gemini_chat"
 
     def __init__(
         self,
     ) -> None:
-        self.workflow = StateGraph(
+        workflow = StateGraph(
             FormInput,
             config_schema=ConfigSchema,
         )
@@ -35,27 +33,32 @@ class FormAgent(BaseAgent):
         f1040_agent = Form1040Agent(year=2024)  # .get()
 
         # Define tools
-        f1040_agent_tool = create_handoff_tool(
+        f1040_agent_tool = ToolRegistry.get(
+            "handoff_tool",
             agent_name=f1040_agent.name,
             description="Transfer user to an agent to file tax form 1040.",
-        )
+        )  # noqa
 
-        _call_model = create_call_model(
+        # Define react agents
+        call_model = ReActRegistry.get(
+            "call_model",
             model_name=self.model_name,
             tools=[
                 f1040_agent_tool,
-                ToolFactory.get("multiply"),
+                ToolRegistry.get("multiply"),
             ],
-        )  # noqa
-        tool_node = ToolNode([f1040_agent_tool])
+        )
+
         # Add nodes
-        self.workflow.add_node("call_model", _call_model)
-        self.workflow.add_node(f1040_agent.name, f1040_agent.get())
-        self.workflow.add_node("tools", tool_node)
+        tool_node = ToolNode([f1040_agent_tool])
+
+        workflow.add_node("call_model", call_model)
+        workflow.add_node(f1040_agent.name, f1040_agent.get())
+        workflow.add_node("tools", tool_node)
 
         # Add edges
-        self.workflow.add_edge(START, "call_model")
-        self.workflow.add_conditional_edges(
+        workflow.add_edge(START, "call_model")
+        workflow.add_conditional_edges(
             "call_model",
             should_continue,
             {
@@ -65,7 +68,10 @@ class FormAgent(BaseAgent):
         )  # noqa
         # self.workflow.add_edge("tools", "call_model")
 
-        self.workflow = self.workflow.compile()
+        self.workflow = workflow.compile()
 
     def get(self):
         return self.workflow
+
+
+__all__ = ["TexAgent"]

@@ -1,29 +1,7 @@
-# async def main():
-#     async for chunk in client.runs.stream(
-#         None,  # Threadless run
-#         "agent",  # Name of assistant. Defined in langgraph.json.
-#         input={
-#             "messages": [
-#                 {
-#                     "role": "human",
-#                     "content": "What is LangGraph?",
-#                 }
-#             ],
-#         },
-#     ):
-#         print(f"Receiving new event of type: {chunk.event}...")
-#         print(chunk.data)
-#         print("\n\n")
 import mlflow
 from langchain_core.messages import convert_to_messages
 
-from tex.agents.form import FormAgent
-
-# import asyncio
-
-# from langgraph_sdk import get_client
-
-# client = get_client(url="http://localhost:2024")
+from tex.agents.tex_agent import TexAgent
 
 mlflow.set_tracking_uri("http://127.0.0.1:5000")
 mlflow.set_experiment("auto-tracing-demo")
@@ -71,7 +49,7 @@ def pretty_print_messages(update, last_message=False):
         print("\n")
 
 
-agent_obj = FormAgent()
+agent_obj = TexAgent()
 agent = agent_obj.get()
 
 if __name__ == "__main__":
@@ -80,7 +58,7 @@ if __name__ == "__main__":
             "messages": [
                 {
                     "role": "user",
-                    "content": "I want to agent to file tax form 1040.",  # "Multipy 2 and 3",  # "I want to agent to file tax form 1040.",
+                    "content": "I want to agent to file tax form 1040.",
                 }
             ],
         },
