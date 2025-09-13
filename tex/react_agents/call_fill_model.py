@@ -4,7 +4,7 @@ from langchain_core.messages import HumanMessage
 from langchain_core.runnables import RunnableConfig
 
 from tex.agents.schemas import FormInput
-from tex.constants import STATUS
+from tex.constants import NUM_TRIALS, STATUS
 from tex.registry import ModelRegistry, ReActRegistry
 
 
@@ -78,7 +78,6 @@ def call_fill_model(
     # now can do the work. However, lines (rows 39-44) show
     # complex and lengthy for-loop(s) and text joining.
     # TO-DO: how to store statements more efficiently.
-    state["messages"].append(HumanMessage(content=" ".join([line, question])))
 
     STATEMENT_LIST = "\n".join(
         [
@@ -93,15 +92,20 @@ def call_fill_model(
         Follow the below command.
         {question}
         """
-    response = model.invoke(PROMPT)
-
+    state["messages"].append(HumanMessage(content=PROMPT))
+    response = None
+    result = 0.0
+    for _ in range(NUM_TRIALS):
+        try:
+            response = model.invoke(PROMPT)
+            result = extract_value(response.content)
+            break
+        except Exception as e:
+            print(f"Error parsing JSON: {response}", e)
+            continue
     return {
         "messages": [response],
-        "forms": {
-            form_name: instruction.format(
-                answer=extract_value(response.content)
-            )  # noqa
-        },  # [instruction.format(answer=extract_value(response.content))],
+        "forms": {form_name: instruction.format(answer=result)},  # noqa
     }
 
 

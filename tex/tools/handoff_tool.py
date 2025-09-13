@@ -5,7 +5,6 @@ from langgraph.prebuilt import InjectedState
 from langgraph.types import Command
 
 from tex.agents.schemas import FormInput
-from tex.constants import STATUS
 from tex.registry import ToolRegistry
 
 
@@ -31,9 +30,8 @@ def handoff_tool(*, agent_name: str, description: str | None = None):
             goto=agent_name,
             update={
                 "messages": state["messages"] + [tool_message],
-                "status": STATUS.SUCCESS,
             },
-            # graph=Command.PARENT,
+            # graph=Command.PARENT,# Implement later if required to back to parent.
         )
 
     return _handoff_tool

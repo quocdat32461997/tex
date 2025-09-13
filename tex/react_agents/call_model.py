@@ -3,7 +3,6 @@ from typing import List
 from langchain_core.runnables import RunnableConfig
 
 from tex.agents.schemas import FormInput
-from tex.constants import STATUS
 from tex.registry import ModelRegistry, ReActRegistry
 
 
@@ -41,7 +40,6 @@ def call_model(
 
     return {
         "messages": [response],
-        "status": STATUS.SUCCESS,
     }
 
 
