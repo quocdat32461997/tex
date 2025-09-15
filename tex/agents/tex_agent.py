@@ -39,25 +39,23 @@ class TexAgent(BaseAgent):
             description="Transfer user to an agent to file tax form 1040.",
         )  # noqa
 
-        # Define react agents
-        call_model = ReActRegistry.get(
+        # Define nodes and edges
+        workflow.add_node("tools", ToolNode([f1040_agent_tool]))
+        workflow.add_node(f1040_agent.name, f1040_agent.get())
+
+        workflow.add_edge(START, "call_model")
+        workflow.add_node(
             "call_model",
-            model_name=self.model_name,
-            tools=[
-                f1040_agent_tool,
-                ToolRegistry.get("multiply"),
-            ],
+            ReActRegistry.get(
+                "call_model",
+                model_name=self.model_name,
+                tools=[
+                    f1040_agent_tool,
+                    ToolRegistry.get("multiply"),
+                ],
+            ),
         )
 
-        # Add nodes
-        tool_node = ToolNode([f1040_agent_tool])
-
-        workflow.add_node("call_model", call_model)
-        workflow.add_node(f1040_agent.name, f1040_agent.get())
-        workflow.add_node("tools", tool_node)
-
-        # Add edges
-        workflow.add_edge(START, "call_model")
         workflow.add_conditional_edges(
             "call_model",
             should_continue,
@@ -66,7 +64,7 @@ class TexAgent(BaseAgent):
                 END: END,
             },
         )  # noqa
-        # self.workflow.add_edge("tools", "call_model")
+        workflow.add_edge(f1040_agent.name, "call_model")
 
         self.workflow = workflow.compile()
 

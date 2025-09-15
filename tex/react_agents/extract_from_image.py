@@ -8,6 +8,7 @@ from tex.agents.schemas import ExtractStatementInput, FormInput
 from tex.constants import NUM_TRIALS, STATUS
 from tex.registry import ModelRegistry, ReActRegistry
 from tex.utils.json_format import clean_json_string
+from tex.utils.wait import wait
 
 
 @ReActRegistry.register("extract_from_image")
@@ -103,6 +104,7 @@ def extract_statement(
             response = model.invoke(state["messages"])
             return {"messages": [response]}
     """
+    print("Extract statement #########")
     # Get model
     model = ModelRegistry.get("gemini_chat")
 
@@ -147,10 +149,11 @@ def extract_statement(
             break
         except Exception as e:
             print(f"Error parsing JSON: {response}", e)
+            wait()
             continue
     return Command(
         goto=state["next_agent"],
-        update={"statements": {state["statement_name"]: result}},
+        update={"forms": {state["statement_name"]: result}},
     )
 
 
