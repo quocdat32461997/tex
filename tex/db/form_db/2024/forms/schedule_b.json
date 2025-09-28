@@ -1,0 +1,11 @@
+{
+    "lines": [
+        {
+            "name": "Line 1",
+            "context": "List name of payer. If any interest is from a seller-financed mortgage and the buyer used the property as a personal residence, see the instructions and list this interest first. Also, show that buyer’s social security number and address:",
+            "question": "List name of payer. If any interest is from a seller-financed mortgage and the buyer used the property as a personal residence, see the instructions and list this interest first. Also, show that buyer’s social security number and address:",
+            "answer": null,
+            "comprehensive_context": "List name of payer. If any interest is from a seller-financed mortgage and the buyer used the property as a personal residence, see the instructions and list this interest first. Also, show that buyer’s social security number and address: {answer}",
+        }
+    ]
+}

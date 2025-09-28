@@ -4,7 +4,7 @@ from langchain_core.messages import AnyMessage
 from langgraph.graph import MessagesState, add_messages  # noqa
 from typing_extensions import TypedDict
 
-from tex.agents.utils import update_lookup
+from tex.agents.utils import update_list, update_lookup
 
 
 class FormInput(MessagesState):
@@ -24,6 +24,7 @@ class FormInput(MessagesState):
     messages: Annotated[List[AnyMessage], add_messages]
     statements: Annotated[Dict[str, List[Any]], update_lookup]
     forms: Annotated[Dict[str, List[Any]], update_lookup]
+    missing_forms: Annotated[List[str], update_list]
 
 
 class ConfigSchema(TypedDict):
@@ -40,8 +41,21 @@ class StatementInput(TypedDict):
 
 
 class ExtractStatementInput(TypedDict):
-    statement_name: str
-    next_agent: str
+    statement_name_list: str
+    next_agent: NotRequired[str]
+
+
+class StatementsInput(TypedDict):
+    statement_name_list: List[str]
+    next_agent: NotRequired[str]
+
+
+class ToFillInput(TypedDict):
+    form_name: str
+    line: str
+    question: str
+    instruction: str
+    tools: List[str]
 
 
 __all__ = [
@@ -50,4 +64,5 @@ __all__ = [
     "StatementInput",
     "HumanInput",
     "ExtractStatementInput",
+    "StatementsInput",
 ]

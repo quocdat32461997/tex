@@ -9,7 +9,7 @@ from tex.registry import ReActRegistry, ToolRegistry
 
 def should_continue(state: FormInput):
     last_message = state["messages"][-1]
-    print("should continue", last_message.tool_calls)
+    print("should continue")
 
     if last_message.tool_calls:
         return "tools"

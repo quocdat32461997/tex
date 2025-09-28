@@ -72,6 +72,15 @@ def call_fill_model(
     instruction: str,
     tools: List[str] = [],
 ) -> FormInput:
+    """
+    (C)all-(L)oad-(F)ill model attempts to
+    - Call another form agent (if required) to fill and aggregates numbers on
+        another forms. The numbers wouuld be used in the current form.
+    - Load any missing statements.
+    - Given all info, start filling current form
+    """
+    message_list = []
+    form_dict = state["forms"]
     # Get model
     model = ModelRegistry.get(model_name)
 
@@ -79,38 +88,33 @@ def call_fill_model(
     if len(tools) > 0:
         model.bind_tools(tools)
 
-    # All extracted info is stored in state["statements"].
-    # Combine the statements' info with question, the model
-    # now can do the work. However, lines (rows 39-44) show
-    # complex and lengthy for-loop(s) and text joining.
-    # TO-DO: how to store statements more efficiently.
-
-    STATEMENT_LIST = "\n".join(
+    FORM_LIST = "\n".join(
         [
-            f"Statement name: {name} - Content: {statement_list}"
-            for name, statement_list in state["statements"].items()
+            f"Form name: {name} - Content: {form_list}"
+            for name, form_list in form_dict.items()
         ]
     ).strip()
     PROMPT = f"""Given the below statements and instruction,
-        Statements: {STATEMENT_LIST}
+        Forms: {FORM_LIST}
         Instruction: {line}
 
         Follow the below command.
         {question}
         """
-    state["messages"].append(HumanMessage(content=PROMPT))
     response = None
     result = 0.0
     for _ in range(NUM_TRIALS):
         try:
             response = model.invoke(PROMPT)
             result = extract_values(response.content)
+            message_list.append(HumanMessage(content=PROMPT))
+            message_list.append(response)
             break
         except Exception as e:
             print(f"Error parsing JSON: {response}", e)
             continue
     return {
-        "messages": [response],
+        "messages": message_list,
         "forms": {form_name: instruction.format(answer=result)},  # noqa
     }
 
@@ -163,7 +167,7 @@ def clf_model(
 
         Your tasks are:
         1. Decide which forms are missing.
-        2. Then, return the list of missing forms or statements in the following JSON format: {{"result": [W-2, Form 2441]}}
+        2. Then, return the list of missing forms or statements in the following JSON format: {{"result": ["W-2", "Form 2441"]}}. No more reasoning
         3. If found no missing forms, return the empty like the following JSON format: {{"result": []}}.
         """
 
@@ -214,10 +218,6 @@ def clf_model(
             continue
     return {
         "messages": message_list,
-        "forms": {form_name: instruction.format(answer=result)},  # noqa
-    }
-    return {
-        "messages": [response],
         "forms": {form_name: instruction.format(answer=result)},  # noqa
     }
 

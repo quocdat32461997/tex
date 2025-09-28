@@ -1,5 +1,8 @@
 import json
 
+from langchain_core.messages import HumanMessage
+from langgraph.types import Command
+
 from tex.agents.schemas import FormInput, StatementInput
 from tex.constants import NUM_TRIALS
 from tex.registry import ModelRegistry, ReActRegistry
@@ -39,4 +42,55 @@ def request_statements(state: FormInput) -> StatementInput:
     return StatementInput(**result)
 
 
-__all__ = ["request_statements"]
+@ReActRegistry.register("request_statements_with_instruction")
+def request_statements_with_instruction(
+    state: FormInput,
+    line: str,
+) -> FormInput:
+    """
+    Request user to provide W-2 form.
+    """
+    print("request statement")
+    FORM_LIST = "\n".join(
+        [f"Form name: {name}" for name in state["forms"].keys()]
+    ).strip()
+    PROMPT = f"""Given the below listi of forms, and instruction,
+        Forms: {FORM_LIST}
+        Instruction: {line}
+
+        Your tasks are:
+        1. Decide which forms are required in the above instruction and do not exist in the above given form list.
+        2. Then, return the list of missing forms in the following JSON format: {{"result": [W-2, Form 2441]}}. No more reasoning
+        3. If found no missing forms or duplicate forms, return the empty like the following JSON format: {{"result": []}}.
+        """
+
+    # Get model
+    model = ModelRegistry.get("gemini_chat")
+    message_list = []
+    result = {}
+    for _ in range(NUM_TRIALS):
+        try:
+            response = model.invoke(PROMPT)
+            result = json.loads(
+                clean_json_string(response.content),
+            )
+            message_list.append(HumanMessage(content=PROMPT))
+            message_list.append(response)
+
+            print("request_statements result", result)
+            break
+        except Exception as e:
+            print("Error parsing JSON:", e)
+            wait()
+            continue
+
+    # return StatementsInput(statement_name_list=result["result"])
+    return Command(
+        update={
+            "messages": message_list,
+            "missing_forms": result["result"],
+        }
+    )
+
+
+__all__ = ["request_statements", "request_statements_with_instruction"]
